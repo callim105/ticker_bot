@@ -50,12 +50,3 @@ def get_current_price(ticker):
     
 
     
-def get_current_price2(ticker):
-    r = requests.get(f'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={ticker}&interval=1min&apikey={ALPHAVANTAGE_KEY}')
-    json_object = r.json()
-    
-    time_series_data = json_object['Time Series (1min)']
-    # Python 3.7 guarantees order of keys, i think?
-    most_recent_time = list(time_series_data.keys())[10]
-    return round(float(time_series_data[most_recent_time]['4. close']), 2)
-    

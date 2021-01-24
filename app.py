@@ -34,15 +34,14 @@ async def on_message(message):
         return
     
     user = message.author.name
-    
-    if message.content.startswith('!imfine'):
-        await message.channel.send('http://gph.is/2HThg52')
         
-    # DAILY CLOSING DATA    
-    elif message.content.startswith('!daily'):
+    # STOCK PRICE DATA    
+    if message.content.startswith('!daily'):
         ticker = message.content.split(' ')[1]
-        await message.channel.send(get_daily_data(ticker))    
+        await message.channel.send(get_daily_data(ticker))  
         
+          
+    # Mock Trading Simulator
     if message.content.startswith('!buy'):
         
         ticker = message.content.split(' ')[1]
@@ -51,7 +50,6 @@ async def on_message(message):
         buy_stock(user, ticker, quantity, mock_trading_db)
         await message.channel.send(f"Congrats, you bought {quantity} shares of {ticker}. You now have {mock_trading_db[user]['stocks'][ticker]['shares']} shares of {ticker} total!")
         print(mock_trading_db)
-        
     elif message.content.startswith('!sell'):
         ticker = message.content.split(' ')[1]
         quantity = int(message.content.split(' ')[2])
@@ -61,7 +59,6 @@ async def on_message(message):
             Congrats, you sold {quantity} shares of {ticker}. You now have {mock_trading_db[user]['stocks'][ticker]['shares']} shares of {ticker} total!
             Your profit for this trade is: ${profit}
         """)
-
     elif message.content.startswith('!showportfolio'):
         for stock_info in show_portfolio(user, mock_trading_db):
             await message.channel.send(stock_info)
