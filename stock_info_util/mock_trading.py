@@ -73,3 +73,20 @@ def get_stocks(user_id, db):
         init_user(user_id, db)
     else:
         return db[user_id]['stocks']
+
+
+def show_portfolio(user_id, db):
+    if user_id not in db:
+        init_user(user_id, db)
+        return "You have no stock"
+    
+    stocks = get_stocks(user_id, db)
+    for ticker in stocks:
+        yield f"{ticker} | Shares: {stocks[ticker]['shares']}"
+
+def test_trades():
+    
+    db = {}
+    buy_stock('callim', 'AMD', 1000, db)
+    for stock in show_portfolio('callim', db):
+        print(stock)

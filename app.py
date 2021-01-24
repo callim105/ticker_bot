@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from datetime import date
 
 from stock_info_util.alphavantage_stock_util import get_daily_data
-from stock_info_util.mock_trading import buy_stock, sell_stock, get_stocks
+from stock_info_util.mock_trading import buy_stock, sell_stock, get_stocks, test_trades, show_portfolio
 
 load_dotenv()
 
@@ -63,6 +63,8 @@ async def on_message(message):
         """)
 
     elif message.content.startswith('!showportfolio'):
-        await message.channel.send(get_stocks(user, mock_trading_db))
+        for stock_info in show_portfolio(user, mock_trading_db):
+            await message.channel.send(stock_info)
+
 
 bot.run(DISCORD_TOKEN)

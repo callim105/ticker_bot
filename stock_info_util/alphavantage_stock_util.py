@@ -9,7 +9,7 @@ ALPHAVANTAGE_KEY = os.getenv("ALPHAVANTAGE_KEY")
 
 
 def get_daily_data(ticker):
-    # try:
+    try:
         r = requests.get(f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={ticker}&apikey={ALPHAVANTAGE_KEY}')
         json_object = r.json()
         pprint(json_object)
@@ -35,8 +35,8 @@ def get_daily_data(ticker):
         Percent Change: {round(percentage_change, 2)}%
         """
         return return_data
-    # except:
-    #     return f"Data for ticker {ticker} not valid."
+    except:
+        return f"Data for ticker {ticker} not valid."
     
     
 def get_current_price(ticker):
