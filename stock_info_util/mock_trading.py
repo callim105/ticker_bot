@@ -1,7 +1,7 @@
 """
 Methods to handle mock trading
 """
-from stock_info_util.alphavantage_stock_util import get_current_price, get_current_price2
+from stock_info_util.alphavantage_stock_util import get_current_price
 from pprint import pprint
 
 """

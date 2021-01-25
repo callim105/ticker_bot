@@ -7,14 +7,20 @@ import logging
 from dotenv import load_dotenv
 from datetime import date
 
-from stock_info_util.alphavantage_stock_util import get_daily_data
+from stock_info_util.alphavantage_stock_util import get_daily_data, get_fundamentals
+from stock_info_util.iex_stock_utils import get_news, get_unemployment_rate
 from stock_info_util.mock_trading import buy_stock, sell_stock, get_stocks, test_trades, show_portfolio
+
+from bot_util.doc_utils import get_help
 
 load_dotenv()
 
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 ALPHAVANTAGE_KEY = os.getenv('ALPHAVANTAGE_KEY')
+IEX_KEY = os.getenv('IEX_KEY')
 
+print(ALPHAVANTAGE_KEY)
+print(IEX_KEY)
 # logging.basicConfig(filename=)
 
 bot = discord.Client()
@@ -34,6 +40,23 @@ async def on_message(message):
         return
     
     user = message.author.name
+    
+    #Help Menu
+    if message.content.startswith('!help'):
+        await message.channel.send(get_help())
+    
+    # Unemployment Rate
+    if message.content.startswith('!brokebois'):
+        await message.channel.send(get_unemployment_rate(IEX_KEY))
+    
+    # Fundamental Data
+    if message.content.startswith('!info'):
+        ticker = message.content.split(' ')[1]
+        await message.channel.send(get_fundamentals(ticker))
+    elif message.content.startswith('!news'):
+        ticker = message.content.split(' ')[1]
+        for item in get_news(ticker, IEX_KEY):
+            await message.channel.send(item)
         
     # STOCK PRICE DATA    
     if message.content.startswith('!daily'):
